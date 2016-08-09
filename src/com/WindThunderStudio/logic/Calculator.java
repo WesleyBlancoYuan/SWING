@@ -81,22 +81,23 @@ public class Calculator {
 		int[] result = new int[7];
 		
 		for (int i=0; i<7; i++){
-			if (horas1[i] != null && !horas1[i].isEmpty()){
+			//add "trim" to avoid input is " ". unparsable.
+			if (horas1[i] != null && !horas1[i].trim().isEmpty()){
 				horas1Int = Integer.parseInt(horas1[i]);
 			} else {
 				horas1Int = 0;
 			}
-			if (minutos1[i] != null && !minutos1[i].isEmpty()){
+			if (minutos1[i] != null && !minutos1[i].trim().isEmpty()){
 				mins1Int = Integer.parseInt(minutos1[i]);
 			} else {
 				mins1Int = 0;
 			}
-			if (horas2[i] != null && !horas2[i].isEmpty()){
+			if (horas2[i] != null && !horas2[i].trim().isEmpty()){
 				horas2Int = Integer.parseInt(horas2[i]);
 			} else {
 				horas2Int = 0;
 			}
-			if (minutos2[i] != null && !minutos2[i].isEmpty()){
+			if (minutos2[i] != null && !minutos2[i].trim().isEmpty()){
 				mins2Int = Integer.parseInt(minutos2[i]);
 			} else {
 				mins2Int = 0;
