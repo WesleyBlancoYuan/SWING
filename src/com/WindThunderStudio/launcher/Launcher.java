@@ -27,13 +27,13 @@ public class Launcher {
 							locale = prop.getProperty(Constants.CONFIG_KEY_LOCALE);
 							baseName = prop.getProperty(Constants.CONFIG_I18N_BASENAME);
 							switch (locale) {
-							case Constants.PROP_KEY_LOCALE_ES:
+							case Constants.PROP_VALUE_LOCALE_ES:
 								localeInSettings = new Locale("es", "ES");
 								break;
-							case Constants.PROP_KEY_LOCALE_EN:
+							case Constants.PROP_VALUE_LOCALE_EN:
 								localeInSettings = new Locale("en", "US");
 								break;
-							case Constants.PROP_KEY_LOCALE_CN:
+							case Constants.PROP_VALUE_LOCALE_CN:
 								localeInSettings = new Locale("zh", "CN");
 								break;
 							default:
@@ -50,7 +50,7 @@ public class Launcher {
 							MainFrame window = new MainFrame(bundle, localeInSettings);
 							
 						} catch (Exception e) {
-							System.err.println(e.getMessage());
+							e.printStackTrace();
 						}
 						
 					}

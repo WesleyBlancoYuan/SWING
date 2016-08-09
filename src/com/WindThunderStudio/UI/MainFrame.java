@@ -47,9 +47,9 @@ public class MainFrame extends JFrame{
 	private Properties prop;
 	private JMenuBar menuBar;
 	private JMenu mnFunctions;
-	private JMenuItem mntmCalcular;
-	private JMenuItem mntmExit;
-	private JMenu mnNewMenu;
+	private JMenu mnAbout;
+	private JMenuItem mnItCalcular;
+	private JMenuItem mnItQuit;
 	//panel cabecera
 	private JLabel lblCabecera;
 	//panel izquierda
@@ -113,6 +113,7 @@ public class MainFrame extends JFrame{
 	
 	private ResourceBundle bundle;
 	private FocusAdapter adapter;
+	private ActionListener calculateListener;
 	
 	protected ResourceBundle getBundle() {
 		return bundle;
@@ -142,7 +143,6 @@ public class MainFrame extends JFrame{
 		setTitle(bundle.getString(Constants.UI_TITLE));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		
 		//el label de dos puntos que va a usar en todos los sitios
 		lbl2p = new JLabel(" : ");
 		//las letras comunes
@@ -168,11 +168,9 @@ public class MainFrame extends JFrame{
 				}
 			}
 		};
-
-//		menuBar = new JMenuBar();
-//		getFrame().setJMenuBar(menuBar);
-//		menuBar.add(getMnFunctions());
-//		menuBar.add(getMnNewMenu());
+		
+		
+		
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new MigLayout("fill, insets 5 5 5 5","[]","[center, 10%]10[top, 70%]20[center, 20%]"));
@@ -462,98 +460,126 @@ public class MainFrame extends JFrame{
 		//button de calculacion. linea 2, row 0 del panel principal.
 		btnCalcular = new JButton(getBundle().getString(Constants.BTN_CALCULATE));
 		btnCalcular.setFont(fontText);
-		btnCalcular.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				calculator = new Calculator();
-				String[] horas1 = new String[7];
-				String[] horas2 = new String[7];
-				String[] mins1 = new String[7];
-				String[] mins2 = new String[7];
+		
+		//ActionListener para calcular.
+				//para el boton y el menu.
 				
-				horas1[0] = lunesHorasEn.getText();
-				horas1[1] = martesHorasEn.getText();
-				horas1[2] = mierHorasEn.getText();
-				horas1[3] = juevesHorasEn.getText();
-				horas1[4] = viernesHorasEn.getText();
-				horas1[5] = sabadoHorasEn.getText();
-				horas1[6] = domingoHorasEn.getText();
-				mins1[0] = lunesMinsEn.getText();
-				mins1[1] = martesMinsEn.getText();
-				mins1[2] = mierMinsEn.getText();
-				mins1[3] = juevesMinsEn.getText();
-				mins1[4] = viernesMinsEn.getText();
-				mins1[5] = sabadoMinsEn.getText();
-				mins1[6] = domingoMinsEn.getText();
-				
-				horas2[0] = lunesHorasSa.getText();
-				horas2[1] = martesHorasSa.getText();
-				horas2[2] = mierHorasSa.getText();
-				horas2[3] = juevesHorasSa.getText();
-				horas2[4] = viernesHorasSa.getText();
-				horas2[5] = sabadoHorasSa.getText();
-				horas2[6] = domingoHorasSa.getText();
-				mins2[0] = lunesMinsSa.getText();
-				mins2[1] = martesMinsSa.getText();
-				mins2[2] = mierMinsSa.getText();
-				mins2[3] = juevesMinsSa.getText();
-				mins2[4] = viernesMinsSa.getText();
-				mins2[5] = sabadoMinsSa.getText();
-				mins2[6] = domingoMinsSa.getText();
-				
-				
-				calculator.setHoras1(horas1);
-				calculator.setMinutos1(mins1);
-				calculator.setHoras2(horas2);
-				calculator.setMinutos2(mins2);
-				
-				//guardar este array de minutos, para calcular el saldo de la semana.
-				int[] diffEnMins = new int[7];
-				diffEnMins = calculator.calHorasImputadas(localeInSettings);
-				
-				int hourPart = 0;
-				int minutePart = 0;
-				
-				// you cannot use (int) (((double)hour) / 60)
-				// if it's 15:59, the hour part will be 16. Must always round down.
-				// so, you can minus mod, and then divide.
-				minutePart = diffEnMins[0] % 60;
-				hourPart = (diffEnMins[0] - minutePart) / 60;
-				lblTotalLunes.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
-				
-				minutePart = diffEnMins[1] % 60;
-				hourPart = (diffEnMins[1] - minutePart) / 60;
-				lblTotalMartes.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
-				
-				minutePart = diffEnMins[2] % 60;
-				hourPart = (diffEnMins[2] - minutePart) / 60;
-				lblTotalMier.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
-				
-				minutePart = diffEnMins[3] % 60;
-				hourPart = (diffEnMins[3] - minutePart) / 60;
-				lblTotalJueves.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
-				
-				minutePart = diffEnMins[4] % 60;
-				hourPart = (diffEnMins[4] - minutePart) / 60;
-				lblTotalVier.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
-				
-				minutePart = diffEnMins[5] % 60;
-				hourPart = (diffEnMins[5] - minutePart) / 60;
-				lblTotalSab.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
-				
-				minutePart = diffEnMins[6] % 60;
-				hourPart = (diffEnMins[6] - minutePart) / 60;
-				lblTotalDomingo.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
-				
-				lblDifeRes.setText(saldoSemanal(diffEnMins));
-				
-				panelDer.updateUI();
-			}
-		});
+				calculateListener = new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						calculator = new Calculator();
+						String[] horas1 = new String[7];
+						String[] horas2 = new String[7];
+						String[] mins1 = new String[7];
+						String[] mins2 = new String[7];
+						
+						horas1[0] = lunesHorasEn.getText();
+						horas1[1] = martesHorasEn.getText();
+						horas1[2] = mierHorasEn.getText();
+						horas1[3] = juevesHorasEn.getText();
+						horas1[4] = viernesHorasEn.getText();
+						horas1[5] = sabadoHorasEn.getText();
+						horas1[6] = domingoHorasEn.getText();
+						mins1[0] = lunesMinsEn.getText();
+						mins1[1] = martesMinsEn.getText();
+						mins1[2] = mierMinsEn.getText();
+						mins1[3] = juevesMinsEn.getText();
+						mins1[4] = viernesMinsEn.getText();
+						mins1[5] = sabadoMinsEn.getText();
+						mins1[6] = domingoMinsEn.getText();
+						
+						horas2[0] = lunesHorasSa.getText();
+						horas2[1] = martesHorasSa.getText();
+						horas2[2] = mierHorasSa.getText();
+						horas2[3] = juevesHorasSa.getText();
+						horas2[4] = viernesHorasSa.getText();
+						horas2[5] = sabadoHorasSa.getText();
+						horas2[6] = domingoHorasSa.getText();
+						mins2[0] = lunesMinsSa.getText();
+						mins2[1] = martesMinsSa.getText();
+						mins2[2] = mierMinsSa.getText();
+						mins2[3] = juevesMinsSa.getText();
+						mins2[4] = viernesMinsSa.getText();
+						mins2[5] = sabadoMinsSa.getText();
+						mins2[6] = domingoMinsSa.getText();
+						
+						
+						calculator.setHoras1(horas1);
+						calculator.setMinutos1(mins1);
+						calculator.setHoras2(horas2);
+						calculator.setMinutos2(mins2);
+						
+						//guardar este array de minutos, para calcular el saldo de la semana.
+						int[] diffEnMins = new int[7];
+						diffEnMins = calculator.calHorasImputadas(localeInSettings);
+						
+						int hourPart = 0;
+						int minutePart = 0;
+						
+						// you cannot use (int) (((double)hour) / 60)
+						// if it's 15:59, the hour part will be 16. Must always round down.
+						// so, you can minus mod, and then divide.
+						minutePart = diffEnMins[0] % 60;
+						hourPart = (diffEnMins[0] - minutePart) / 60;
+						lblTotalLunes.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
+						
+						minutePart = diffEnMins[1] % 60;
+						hourPart = (diffEnMins[1] - minutePart) / 60;
+						lblTotalMartes.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
+						
+						minutePart = diffEnMins[2] % 60;
+						hourPart = (diffEnMins[2] - minutePart) / 60;
+						lblTotalMier.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
+						
+						minutePart = diffEnMins[3] % 60;
+						hourPart = (diffEnMins[3] - minutePart) / 60;
+						lblTotalJueves.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
+						
+						minutePart = diffEnMins[4] % 60;
+						hourPart = (diffEnMins[4] - minutePart) / 60;
+						lblTotalVier.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
+						
+						minutePart = diffEnMins[5] % 60;
+						hourPart = (diffEnMins[5] - minutePart) / 60;
+						lblTotalSab.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
+						
+						minutePart = diffEnMins[6] % 60;
+						hourPart = (diffEnMins[6] - minutePart) / 60;
+						lblTotalDomingo.setText(String.valueOf(hourPart) + " : " + ((minutePart < 10)?"0":"") + String.valueOf(minutePart));
+						
+						lblDifeRes.setText(saldoSemanal(diffEnMins));
+						
+						panelDer.updateUI();
+					}
+				};
+		
+		btnCalcular.addActionListener(calculateListener);
 		
 		panel.add(btnCalcular, "cell 0 2, align right, w 100!");
 		
 		//fin de config de panel principal
 		
+		menuBar = new JMenuBar();
+			mnFunctions = new JMenu(getBundle().getString(Constants.MENU_FUNCTIONS));
+				mnItCalcular = new JMenuItem(getBundle().getString(Constants.BTN_CALCULATE));
+				mnItCalcular.addActionListener(calculateListener);
+				
+				mnItQuit = new JMenuItem(getBundle().getString(Constants.BTN_QUIT));
+				mnItQuit.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+						
+					}
+				});
+			mnFunctions.add(mnItCalcular);
+			mnFunctions.add(mnItQuit);
+			mnAbout = new JMenu(getBundle().getString(Constants.MENU_ABOUT));
+		menuBar.add(mnFunctions);
+		menuBar.add(mnAbout);
+		setJMenuBar(menuBar);
 		//anadir el panel principal al contentPane del frame
 		getContentPane().add(panel);
 		setResizable(true);
@@ -594,68 +620,7 @@ public class MainFrame extends JFrame{
 		tf.setAlignmentX(RIGHT_ALIGNMENT);
 		return tf;
 	}
-//	private JMenu getMnFunctions() {
-//		if (mnFunctions == null) {
-//			mnFunctions = new JMenu("Functions");
-//			mnFunctions.add(getMntmCalcular());
-//			mnFunctions.add(getMntmExit());
-//		}
-//		return mnFunctions;
-//	}
-//	private JMenuItem getMntmCalcular() {
-//		if (mntmCalcular == null) {
-//			mntmCalcular = new JMenuItem("Calcular");
-//			mntmCalcular.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent arg0) {
-//					calculator = new Calculator();
-//					String[] horasEn = new String[7];
-//					String[] minsEn = new String[7];
-////					
-////					horas[0] = textFieldLunesHorasEn.getText();
-////					horas[1] = martesHorasEn.getText();
-////					horas[2] = mierHorasEn.getText();
-////					horas[3] = juevesHorasEn.getText();
-////					horas[4] = viernesHorasEn.getText();
-////					horas[5] = sabadoHorasEn.getText();
-////					horas[6] = domingoHorasEn.getText();
-////					
-////					mins[0] = lunesMinsEn.getText();
-////					mins[1] = martesMinsEn.getText();
-////					mins[2] = mierMinsEn.getText();
-////					mins[3] = juevesMinsEn.getText();
-////					mins[4] = viernesMinsEn.getText();
-////					mins[5] = sabadoMinsEn.getText();
-////					mins[6] = domingoMinsEn.getText();
-////					
-////					calculator.setHoras(horas);
-////					calculator.setMinutos(mins);
-//					
-//					int[] horasYMins = new int[2];
-//					horasYMins = calculator.calHorasImputadas(localeInSettings);
-////					horasImpuResult.setText(String.valueOf(horasYMins[0]) + ":" + ((horasYMins[1] < 10) ? "0" : "") + String.valueOf(horasYMins[1]));
-////					difResult.setText(totalMenosHorasImputadas(textFieldHorasTotales.getSelectedItem().toString(), horasYMins[0], horasYMins[1]));
-//				}
-//			});
-//		}
-//		return mntmCalcular;
-//	}
-//	private JMenuItem getMntmExit() {
-//		if (mntmExit == null) {
-//			mntmExit = new JMenuItem("Exit");
-//			mntmCalcular.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent arg0) {
-//					System.exit(0);
-//				}
-//			});
-//		}
-//		return mntmExit;
-//	}
-//	private JMenu getMnNewMenu() {
-//		if (mnNewMenu == null) {
-//			mnNewMenu = new JMenu("About...");
-//		}
-//		return mnNewMenu;
-//	}
+	
 	public JFrame getFrame() {
 		return frame;
 	}

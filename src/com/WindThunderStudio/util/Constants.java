@@ -16,9 +16,9 @@ public class Constants {
 	public static final String CONFIG_KEY_DATE_FORMAT_PATTERN = "DATE_FORMAT_PATTERN";
 	
 	public static final String CONFIG_KEY_LOCALE = "locale";
-	public static final String PROP_KEY_LOCALE_ES = "es_ES";
-	public static final String PROP_KEY_LOCALE_EN = "en_US";
-	public static final String PROP_KEY_LOCALE_CN = "zh_CN";
+	public static final String PROP_VALUE_LOCALE_ES = "es_ES";
+	public static final String PROP_VALUE_LOCALE_EN = "en_US";
+	public static final String PROP_VALUE_LOCALE_CN = "zh_CN";
 	public static final String CONFIG_CHINESE_FONT_HEADER = "Serif.plain";
 	public static final String CONFIG_CHINESE_FONT_CONTENT = "Serif.plain";
 	public static final String CONFIG_OTHER_FONT_HEADER = "Candara";
@@ -42,7 +42,9 @@ public class Constants {
 	public static final String TITLE_CLOCK_IN_HOURS = "TITLE_CLOCK_IN_HOURS";
 	public static final String TITLE_DIFFERENCE = "TITLE_DIFFERENCE";
 	public static final String BTN_CALCULATE = "BTN_CALCULATE";
+	public static final String BTN_QUIT = "BTN_QUIT";
 
-
+	public static final String MENU_FUNCTIONS = "MENU_FUNCTIONS";
+	public static final String MENU_ABOUT = "MENU_ABOUT";
 	
 }
