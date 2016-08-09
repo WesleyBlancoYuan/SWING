@@ -146,9 +146,17 @@ public class MainFrame extends JFrame{
 		//el label de dos puntos que va a usar en todos los sitios
 		lbl2p = new JLabel(" : ");
 		//las letras comunes
-		Font tahoma15normal = new Font("Tahoma", Font.PLAIN, 15);
-		Font tahoma15bold = new Font("Tahoma", Font.BOLD, 15);
-		lbl2p.setFont(tahoma15normal);
+		Font fontText = null;
+		Font fontHeader = null;
+		if (localeInSettings.getLanguage().equalsIgnoreCase("zh")){
+			fontHeader = new Font(Constants.CONFIG_CHINESE_FONT_HEADER, Font.BOLD, 17);
+			fontText = new Font(Constants.CONFIG_CHINESE_FONT_CONTENT, Font.PLAIN, 15);
+		} else {
+			fontHeader = new Font(Constants.CONFIG_OTHER_FONT_HEADER, Font.BOLD, 17);
+			fontText = new Font(Constants.CONFIG_OTHER_FONT_CONTENT, Font.PLAIN, 15);
+		}
+		
+		lbl2p.setFont(fontText);
 		
 		//FocusAdapter para todos los textfield.
 		adapter = new FocusAdapter() {
@@ -175,7 +183,7 @@ public class MainFrame extends JFrame{
 		pHeader.setLayout(new MigLayout("fill","[]","[center]"));
 		
 		lblCabecera = new JLabel(getBundle().getString(Constants.TITLE_HEADER));
-		lblCabecera.setFont(tahoma15normal);
+		lblCabecera.setFont(fontHeader);
 		pHeader.add(lblCabecera,"align left, grow");
 		
 		panel.add(pHeader,"cell 0 0");
@@ -193,20 +201,20 @@ public class MainFrame extends JFrame{
 
 		//titulo de "horas : minutos"
 		lblHyM1 = new JLabel(getBundle().getString(Constants.TITLE_HOURS_AND_MINUTES));
-		lblHyM1.setFont(tahoma15normal);
+		lblHyM1.setFont(fontText);
 		lblHyM2 = new JLabel(getBundle().getString(Constants.TITLE_HOURS_AND_MINUTES));
-		lblHyM2.setFont(tahoma15normal);
+		lblHyM2.setFont(fontText);
 		pIzq.add(lblHyM1, "cell 1 0");
 		pIzq.add(lblHyM2, "cell 2 0, align center");
 		
 		//titulo de "horas imputadas"
 		lblTiempoTotal = new JLabel(getBundle().getString(Constants.TITLE_DAILY_TOTAL));
-		lblTiempoTotal.setFont(tahoma15normal);
+		lblTiempoTotal.setFont(fontText);
 		pIzq.add(lblTiempoTotal, "cell 3 0");
 		
 		//linea de lunes
 		lblLunes = new JLabel(getBundle().getString(Constants.TITLE_MONDAY));
-		lblLunes.setFont(tahoma15normal);
+		lblLunes.setFont(fontText);
 		pIzq.add(lblLunes, "cell 0 1");
 		
 		
@@ -228,14 +236,14 @@ public class MainFrame extends JFrame{
 		
 		//las horas imputadas totales de lunes, resultado de calculo.
 		lblTotalLunes = new JLabel();
-		lblTotalLunes.setFont(tahoma15normal);
+		lblTotalLunes.setFont(fontText);
 		pIzq.add(lblTotalLunes, "cell 3 1");
 		
 		//-- fin de lunes --
 		
 		//linea de martes
 		lblMartes = new JLabel(getBundle().getString(Constants.TITLE_THUESDAY));
-		lblMartes.setFont(tahoma15normal);
+		lblMartes.setFont(fontText);
 		pIzq.add(lblMartes, "cell 0 2");
 		
 		martesHorasEn = createTextField();
@@ -256,14 +264,14 @@ public class MainFrame extends JFrame{
 		
 		//las horas imputadas totales de martes, como resultado de calculo.
 		lblTotalMartes = new JLabel();
-		lblTotalMartes.setFont(tahoma15normal);
+		lblTotalMartes.setFont(fontText);
 		pIzq.add(lblTotalMartes, "cell 3 2");
 		
 		//-- fin de martes --
 		
 		//linea de miercoles
 		lblMiercoles = new JLabel(getBundle().getString(Constants.TITLE_WENESDAY));
-		lblMiercoles.setFont(tahoma15normal);
+		lblMiercoles.setFont(fontText);
 		pIzq.add(lblMiercoles, "cell 0 3");
 		
 		mierHorasEn = createTextField();
@@ -284,13 +292,13 @@ public class MainFrame extends JFrame{
 		
 		//las horas imputadas totales de miercoles, como resultado de calculo.
 		lblTotalMier = new JLabel();
-		lblTotalMier.setFont(tahoma15normal);
+		lblTotalMier.setFont(fontText);
 		pIzq.add(lblTotalMier, "cell 3 3");
 		//-- fin de miercoles --
 		
 		//linea de jueves
 		lblJueves = new JLabel(getBundle().getString(Constants.TITLE_THURSDAY));
-		lblJueves.setFont(tahoma15normal);
+		lblJueves.setFont(fontText);
 		pIzq.add(lblJueves, "cell 0 4");
 		
 		juevesHorasEn = createTextField();
@@ -311,13 +319,13 @@ public class MainFrame extends JFrame{
 		
 		//las horas imputadas totales de jueves, como resultado de calculo.
 		lblTotalJueves = new JLabel();
-		lblTotalJueves.setFont(tahoma15normal);
+		lblTotalJueves.setFont(fontText);
 		pIzq.add(lblTotalJueves, "cell 3 4");
 		//-- fin de jueves --
 		
 		//linea de viernes
 		lblViernes = new JLabel(getBundle().getString(Constants.TITLE_FRIDAY));
-		lblViernes.setFont(tahoma15normal);
+		lblViernes.setFont(fontText);
 		pIzq.add(lblViernes, "cell 0 5");
 		
 		viernesHorasEn = createTextField();
@@ -338,13 +346,13 @@ public class MainFrame extends JFrame{
 		
 		//las horas imputadas totales de viernes, como resultado de calculo.
 		lblTotalVier = new JLabel();
-		lblTotalVier.setFont(tahoma15normal);
+		lblTotalVier.setFont(fontText);
 		pIzq.add(lblTotalVier, "cell 3 5");
 		//-- fin de viernes --
 		
 		//linea de sabado
 		lblSabado = new JLabel(getBundle().getString(Constants.TITLE_SATURDAY));
-		lblSabado.setFont(tahoma15normal);
+		lblSabado.setFont(fontText);
 		pIzq.add(lblSabado, "cell 0 6");
 		
 		sabadoHorasEn = createTextField();
@@ -365,13 +373,13 @@ public class MainFrame extends JFrame{
 		
 		//las horas imputadas totales de sabado, como resultado de calculo.
 		lblTotalSab = new JLabel();
-		lblTotalSab.setFont(tahoma15normal);
+		lblTotalSab.setFont(fontText);
 		pIzq.add(lblTotalSab, "cell 3 6");
 		//-- fin de sabado --
 		
 		//linea de domingo
 		lblTotalDomingo = new JLabel(getBundle().getString(Constants.TITLE_SUNDAY));
-		lblTotalDomingo.setFont(tahoma15normal);
+		lblTotalDomingo.setFont(fontText);
 		pIzq.add(lblTotalDomingo, "cell 0 7");
 		
 		domingoHorasEn = createTextField();
@@ -392,19 +400,19 @@ public class MainFrame extends JFrame{
 		
 		//las horas imputadas totales de domingo, como resultado de calculo.
 		lblTotalDomingo = new JLabel();
-		lblTotalDomingo.setFont(tahoma15normal);
+		lblTotalDomingo.setFont(fontText);
 		pIzq.add(lblTotalDomingo, "cell 3 7");
 		//-- fin de domingo --
 		
 		//configuracion con un combo, el numero de horas a trabajar en una semana
 		lblHorasTotales = new JLabel(getBundle().getString(Constants.TITLE_TOTAL_IN_WEEK));
-		lblHorasTotales.setFont(tahoma15normal);
+		lblHorasTotales.setFont(fontText);
 		pIzq.add(lblHorasTotales, "cell 0 8, span 3, align right");
 		
 		comboTotal = new JComboBox<String>();
 		comboTotal.setEditable(true);
 		comboTotal.setMaximumRowCount(3);
-		comboTotal.setFont(tahoma15normal);
+		comboTotal.setFont(fontText);
 		comboTotal.setModel(new DefaultComboBoxModel<String>(new String[] {"40", "35"}));
 		comboTotal.setSelectedIndex(0);
 		pIzq.add(comboTotal, "cell 3 8, span 2, align left");
@@ -424,25 +432,25 @@ public class MainFrame extends JFrame{
 		} else {
 			lblEstacion = new JLabel(getBundle().getString(Constants.TEXT_SEASON_WINTER));
 		}
-		lblEstacion.setFont(tahoma15normal);
+		lblEstacion.setFont(fontText);
 		panelDer.add(lblEstacion,"cell 0 0, align left");
 		
 		
 		lblHorasImp = new JLabel(getBundle().getString(Constants.TITLE_CLOCK_IN_HOURS));
-		lblHorasImp.setFont(tahoma15normal);
+		lblHorasImp.setFont(fontText);
 		panelDer.add(lblHorasImp, "cell 0 1, align left, split 1");
 		//dividir el cell 0 1 a dos columnas, permitir el siguiente 1 elemento agregado a la celda.
 		lblHorasImpRes = new JLabel("00:00");
-		lblHorasImpRes.setFont(tahoma15normal);
+		lblHorasImpRes.setFont(fontText);
 		panelDer.add(lblHorasImpRes, "cell 0 1, align 40%");
 		//anadir el resultado de horas imputadas a la misma celda.
 		
 		lblDife = new JLabel(getBundle().getString(Constants.TITLE_DIFFERENCE));
-		lblDife.setFont(tahoma15normal);
+		lblDife.setFont(fontText);
 		panelDer.add(lblDife, "cell 0 2, split 1, align left");
 		
 		lblDifeRes = new JLabel();
-		lblDifeRes.setFont(tahoma15normal);
+		lblDifeRes.setFont(fontText);
 		panelDer.add(lblDifeRes, "cell 0 2, wrap");
 		// fin de config de panel a la derecha.
 		
@@ -453,7 +461,7 @@ public class MainFrame extends JFrame{
 		
 		//button de calculacion. linea 2, row 0 del panel principal.
 		btnCalcular = new JButton(getBundle().getString(Constants.BTN_CALCULATE));
-		btnCalcular.setFont(tahoma15normal);
+		btnCalcular.setFont(fontText);
 		btnCalcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				calculator = new Calculator();

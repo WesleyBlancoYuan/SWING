@@ -19,6 +19,10 @@ public class Constants {
 	public static final String PROP_KEY_LOCALE_ES = "es_ES";
 	public static final String PROP_KEY_LOCALE_EN = "en_US";
 	public static final String PROP_KEY_LOCALE_CN = "zh_CN";
+	public static final String CONFIG_CHINESE_FONT_HEADER = "Serif.plain";
+	public static final String CONFIG_CHINESE_FONT_CONTENT = "Serif.plain";
+	public static final String CONFIG_OTHER_FONT_HEADER = "Candara";
+	public static final String CONFIG_OTHER_FONT_CONTENT = "Arial";
 	
 	public static final String UI_TITLE = "UI_TITLE";
 	public static final String TITLE_HEADER = "HEADER";
