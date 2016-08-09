@@ -140,9 +140,8 @@ public class MainFrame extends JFrame{
 	 */
 	private void initialize() {
 		setTitle(bundle.getString(Constants.UI_TITLE));
-		setSize(700, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+		
 		
 		//el label de dos puntos que va a usar en todos los sitios
 		lbl2p = new JLabel(" : ");
@@ -168,15 +167,15 @@ public class MainFrame extends JFrame{
 //		menuBar.add(getMnNewMenu());
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new MigLayout("fill, insets 5 5 5 5, debug","[]","[center, 10%]10[top, 70%]20[center, 20%]"));
+		panel.setLayout(new MigLayout("fill, insets 5 5 5 5","[]","[center, 10%]10[top, 70%]20[center, 20%]"));
 		//matrix of 1 column and 2 rows
 		
 		//el panel de header
 		JPanel pHeader = new JPanel();
-		pHeader.setLayout(new MigLayout("fill, debug","[]","[center]"));
+		pHeader.setLayout(new MigLayout("fill","[]","[center]"));
 		
 		lblCabecera = new JLabel(getBundle().getString(Constants.TITLE_HEADER));
-		lblCabecera.setFont(tahoma15bold);
+		lblCabecera.setFont(tahoma15normal);
 		pHeader.add(lblCabecera,"align left, grow");
 		
 		panel.add(pHeader,"cell 0 0");
@@ -184,30 +183,30 @@ public class MainFrame extends JFrame{
 		
 		//panel de contenido, lo de los texifield y resultados
 		JPanel pContent = new JPanel();
-		pContent.setLayout(new MigLayout("fill, debug","[75%, align left]10[25%, align left]","[center]"));
+		pContent.setLayout(new MigLayout("fill","[75%, align left]10[25%, align left]","[center]"));
 		
 		//el panel de las horas y los minutos, abajo izquierda
 		final JPanel pIzq = new JPanel();
-		pIzq.setLayout(new MigLayout("fill, debug","[right]10[center, 25%, shrink]5[center, 25%, shrink]10[center]","[]10[]5[]5[]5[]5[]5[]5[]10[]"));
+		pIzq.setLayout(new MigLayout("fill","[right]10[center, 25%, shrink]5[center, 25%, shrink]10[center]","[]10[]5[]5[]5[]5[]5[]5[]10[]"));
 		
 		
 
 		//titulo de "horas : minutos"
 		lblHyM1 = new JLabel(getBundle().getString(Constants.TITLE_HOURS_AND_MINUTES));
-		lblHyM1.setFont(tahoma15bold);
+		lblHyM1.setFont(tahoma15normal);
 		lblHyM2 = new JLabel(getBundle().getString(Constants.TITLE_HOURS_AND_MINUTES));
-		lblHyM2.setFont(tahoma15bold);
+		lblHyM2.setFont(tahoma15normal);
 		pIzq.add(lblHyM1, "cell 1 0");
 		pIzq.add(lblHyM2, "cell 2 0, align center");
 		
 		//titulo de "horas imputadas"
 		lblTiempoTotal = new JLabel(getBundle().getString(Constants.TITLE_DAILY_TOTAL));
-		lblTiempoTotal.setFont(tahoma15bold);
+		lblTiempoTotal.setFont(tahoma15normal);
 		pIzq.add(lblTiempoTotal, "cell 3 0");
 		
 		//linea de lunes
 		lblLunes = new JLabel(getBundle().getString(Constants.TITLE_MONDAY));
-		lblLunes.setFont(tahoma15bold);
+		lblLunes.setFont(tahoma15normal);
 		pIzq.add(lblLunes, "cell 0 1");
 		
 		
@@ -236,7 +235,7 @@ public class MainFrame extends JFrame{
 		
 		//linea de martes
 		lblMartes = new JLabel(getBundle().getString(Constants.TITLE_THUESDAY));
-		lblMartes.setFont(tahoma15bold);
+		lblMartes.setFont(tahoma15normal);
 		pIzq.add(lblMartes, "cell 0 2");
 		
 		martesHorasEn = createTextField();
@@ -264,7 +263,7 @@ public class MainFrame extends JFrame{
 		
 		//linea de miercoles
 		lblMiercoles = new JLabel(getBundle().getString(Constants.TITLE_WENESDAY));
-		lblMiercoles.setFont(tahoma15bold);
+		lblMiercoles.setFont(tahoma15normal);
 		pIzq.add(lblMiercoles, "cell 0 3");
 		
 		mierHorasEn = createTextField();
@@ -291,7 +290,7 @@ public class MainFrame extends JFrame{
 		
 		//linea de jueves
 		lblJueves = new JLabel(getBundle().getString(Constants.TITLE_THURSDAY));
-		lblJueves.setFont(tahoma15bold);
+		lblJueves.setFont(tahoma15normal);
 		pIzq.add(lblJueves, "cell 0 4");
 		
 		juevesHorasEn = createTextField();
@@ -318,7 +317,7 @@ public class MainFrame extends JFrame{
 		
 		//linea de viernes
 		lblViernes = new JLabel(getBundle().getString(Constants.TITLE_FRIDAY));
-		lblViernes.setFont(tahoma15bold);
+		lblViernes.setFont(tahoma15normal);
 		pIzq.add(lblViernes, "cell 0 5");
 		
 		viernesHorasEn = createTextField();
@@ -345,7 +344,7 @@ public class MainFrame extends JFrame{
 		
 		//linea de sabado
 		lblSabado = new JLabel(getBundle().getString(Constants.TITLE_SATURDAY));
-		lblSabado.setFont(tahoma15bold);
+		lblSabado.setFont(tahoma15normal);
 		pIzq.add(lblSabado, "cell 0 6");
 		
 		sabadoHorasEn = createTextField();
@@ -372,7 +371,7 @@ public class MainFrame extends JFrame{
 		
 		//linea de domingo
 		lblTotalDomingo = new JLabel(getBundle().getString(Constants.TITLE_SUNDAY));
-		lblTotalDomingo.setFont(tahoma15bold);
+		lblTotalDomingo.setFont(tahoma15normal);
 		pIzq.add(lblTotalDomingo, "cell 0 7");
 		
 		domingoHorasEn = createTextField();
@@ -399,7 +398,7 @@ public class MainFrame extends JFrame{
 		
 		//configuracion con un combo, el numero de horas a trabajar en una semana
 		lblHorasTotales = new JLabel(getBundle().getString(Constants.TITLE_TOTAL_IN_WEEK));
-		lblHorasTotales.setFont(tahoma15bold);
+		lblHorasTotales.setFont(tahoma15normal);
 		pIzq.add(lblHorasTotales, "cell 0 8, span 3, align right");
 		
 		comboTotal = new JComboBox<String>();
@@ -418,14 +417,14 @@ public class MainFrame extends JFrame{
 		//panel a la derecha, para resultados de calculo de saldo de horas,
 		//y el boton de calcular.
 		final JPanel panelDer = new JPanel();
-		panelDer.setLayout(new MigLayout("fill, debug","[left]","[]15[]15[]"));
+		panelDer.setLayout(new MigLayout("fill","[left]","[]15[]15[]"));
 		
 		if (Tool.horarioVerano(localeInSettings)) {
 			lblEstacion = new JLabel(getBundle().getString(Constants.TEXT_SEASON_SUMMER));
 		} else {
 			lblEstacion = new JLabel(getBundle().getString(Constants.TEXT_SEASON_WINTER));
 		}
-		lblEstacion.setFont(tahoma15bold);
+		lblEstacion.setFont(tahoma15normal);
 		panelDer.add(lblEstacion,"cell 0 0, align left");
 		
 		
@@ -439,7 +438,7 @@ public class MainFrame extends JFrame{
 		//anadir el resultado de horas imputadas a la misma celda.
 		
 		lblDife = new JLabel(getBundle().getString(Constants.TITLE_DIFFERENCE));
-		lblDife.setFont(tahoma15bold);
+		lblDife.setFont(tahoma15normal);
 		panelDer.add(lblDife, "cell 0 2, split 1, align left");
 		
 		lblDifeRes = new JLabel();
@@ -552,7 +551,8 @@ public class MainFrame extends JFrame{
 		setResizable(true);
 		setVisible(true);
 		pack();
-		
+		setBounds(0,0,900,450);
+		setLocationRelativeTo(null);
 	}
 	
 	
