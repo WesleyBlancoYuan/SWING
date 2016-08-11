@@ -14,16 +14,26 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import com.WindThunderStudio.logic.Calculator;
 import com.WindThunderStudio.util.Constants;
@@ -34,6 +44,10 @@ import net.miginfocom.swing.MigLayout;
 
 public class MainFrame extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Locale localeInSettings;
 	public Locale getLocaleInSettings() {
@@ -47,6 +61,12 @@ public class MainFrame extends JFrame{
 	private Properties prop;
 	private JMenuBar menuBar;
 	private JMenu mnFunctions;
+	private JMenu mnLanguage;
+	private JPopupMenu mnFirstDayOfWeek;
+	private ButtonGroup langs;
+	private JRadioButtonMenuItem btnLangES;
+	private JRadioButtonMenuItem btnLangEN;
+	private JRadioButtonMenuItem btnLangZH;
 	private JMenu mnAbout;
 	private JMenuItem mnItCalcular;
 	private JMenuItem mnItQuit;
@@ -565,6 +585,7 @@ public class MainFrame extends JFrame{
 				mnItCalcular = new JMenuItem(getBundle().getString(Constants.BTN_CALCULATE));
 				mnItCalcular.addActionListener(calculateListener);
 				
+				
 				mnItQuit = new JMenuItem(getBundle().getString(Constants.BTN_QUIT));
 				mnItQuit.addActionListener(new ActionListener() {
 					
@@ -576,9 +597,67 @@ public class MainFrame extends JFrame{
 				});
 			mnFunctions.add(mnItCalcular);
 			mnFunctions.add(mnItQuit);
+			mnFunctions.addSeparator();
+			mnLanguage = new JMenu(getBundle().getString(Constants.MENU_LANGS));
+				ButtonGroup langs = new ButtonGroup();
+				btnLangES = new JRadioButtonMenuItem(getBundle().getString(Constants.BTN_LANGS_ES));
+				btnLangZH = new JRadioButtonMenuItem(getBundle().getString(Constants.BTN_LANGS_ZH));
+				btnLangEN = new JRadioButtonMenuItem(getBundle().getString(Constants.BTN_LANGS_EN));
+				
+				//add listener for all language buttons
+				final class LangsListener extends AbstractAction {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						AbstractButton item = null;
+						if (event.getSource() instanceof JRadioButtonMenuItem) {
+							item = (JRadioButtonMenuItem) event.getSource();
+							
+						} else if (event.getSource() instanceof JButton) {
+							item = (JButton) event.getSource();
+						}
+						if (item.isSelected()) {
+							PropertiesLoader loader = new PropertiesLoader();
+							try {
+								if (item.getText().equalsIgnoreCase(getBundle().getString(Constants.BTN_LANGS_ES))) {
+									loader.changeLanguage(Constants.PROP_VALUE_LOCALE_ES);
+								} else if (item.getText().equalsIgnoreCase(getBundle().getString(Constants.BTN_LANGS_EN))) {
+									loader.changeLanguage(Constants.PROP_VALUE_LOCALE_EN);
+								} else if (item.getText().equalsIgnoreCase(getBundle().getString(Constants.BTN_LANGS_ZH))) {
+									loader.changeLanguage(Constants.PROP_VALUE_LOCALE_CN);
+								}
+								
+							ResourceBundle.clearCache();
+//							Locale.setDefault(Tool.loadLanguageAndLocale().getLocale());
+							bundle = Tool.loadLanguageAndLocale();
+							@SuppressWarnings("unused")
+							String test = bundle.getString(Constants.UI_TITLE);
+ 							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
+						}
+					}
+
+					
+					
+				}
+				
+				LangsListener listener = new LangsListener();
+				
+				btnLangES.addActionListener(listener);
+				btnLangEN.addActionListener(listener);
+				btnLangZH.addActionListener(listener);
+				langs.add(btnLangES);
+				langs.add(btnLangZH);
+				langs.add(btnLangEN);
+				mnLanguage.add(btnLangES);
+				mnLanguage.add(btnLangZH);
+				mnLanguage.add(btnLangEN);
+			mnFunctions.add(mnLanguage);
+			
 			mnAbout = new JMenu(getBundle().getString(Constants.MENU_ABOUT));
 		menuBar.add(mnFunctions);
 		menuBar.add(mnAbout);
+		
 		setJMenuBar(menuBar);
 		//anadir el panel principal al contentPane del frame
 		getContentPane().add(panel);
@@ -628,4 +707,5 @@ public class MainFrame extends JFrame{
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
+
 }

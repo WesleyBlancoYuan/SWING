@@ -43,8 +43,12 @@ public class Constants {
 	public static final String TITLE_DIFFERENCE = "TITLE_DIFFERENCE";
 	public static final String BTN_CALCULATE = "BTN_CALCULATE";
 	public static final String BTN_QUIT = "BTN_QUIT";
+	public static final String BTN_LANGS_ES= "BTN_LANGS_ES";
+	public static final String BTN_LANGS_EN = "BTN_LANGS_EN";
+	public static final String BTN_LANGS_ZH = "BTN_LANGS_ZH";
 
 	public static final String MENU_FUNCTIONS = "MENU_FUNCTIONS";
 	public static final String MENU_ABOUT = "MENU_ABOUT";
+	public static final String MENU_LANGS = "MENU_LANGS";
 	
 }

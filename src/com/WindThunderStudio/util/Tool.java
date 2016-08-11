@@ -8,9 +8,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class Tool {
-	
+	private static String locale;
+	private static Locale localeInSettings;
 	/**
 	 * Method to determine if the working schedule of summer is applied.
 	 * The implementation is assumed, but can change.
@@ -96,5 +98,45 @@ public class Tool {
 		
 		return hourPart + ":" + minPart;
 		
+	}
+
+	/** Method to load ResourceBundle and Locale in settings. 
+	 * For initialize the application, and resetting the language.
+	 * @return The resource bundle configured in config.properties.
+	 * @throws IOException
+	 */
+	public static ResourceBundle loadLanguageAndLocale() throws IOException {
+		//read i18n file
+		Properties prop = new PropertiesLoader().getSettings();
+		String baseName = "";
+		ResourceBundle bundle = null;
+		if (prop != null) {
+			try {
+				locale = prop.getProperty(Constants.CONFIG_KEY_LOCALE);
+				baseName = prop.getProperty(Constants.CONFIG_I18N_BASENAME);
+				switch (locale) {
+				case Constants.PROP_VALUE_LOCALE_ES:
+					localeInSettings = new Locale("es", "ES");
+					break;
+				case Constants.PROP_VALUE_LOCALE_EN:
+					localeInSettings = new Locale("en", "US");
+					break;
+				case Constants.PROP_VALUE_LOCALE_CN:
+					localeInSettings = new Locale("zh", "CN");
+					break;
+				default:
+					localeInSettings = new Locale("es", "ES");
+					break;
+				}
+				//base name should be fully qualified name, with ".". But, for backward compatility,
+				// "/" is not descarted and can work.
+				bundle = ResourceBundle.getBundle(baseName,localeInSettings);
+				return bundle;
+				
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 }
