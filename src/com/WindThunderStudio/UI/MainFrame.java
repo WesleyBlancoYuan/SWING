@@ -5,7 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -161,7 +169,7 @@ public class MainFrame extends JFrame{
 	 */
 	private void initialize() {
 		setTitle(bundle.getString(Constants.UI_TITLE));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//el label de dos puntos que va a usar en todos los sitios
 		lbl2p = new JLabel(" : ");
@@ -591,7 +599,7 @@ public class MainFrame extends JFrame{
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.exit(0);
+						dispose();
 						
 					}
 				});
@@ -666,6 +674,163 @@ public class MainFrame extends JFrame{
 		pack();
 		setBounds(0,0,900,450);
 		setLocationRelativeTo(null);
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				recoverInputFromFile();
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				saveInputToFile();
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			private void saveInputToFile() {
+				String[][] input = new String[7][4];
+				input [0][0] = lunesHorasEn.getText();
+				input [0][1] = lunesMinsEn.getText();
+				input [0][2] = lunesHorasSa.getText();
+				input [0][3] = lunesMinsSa.getText();
+				
+				input [1][0] = martesHorasEn.getText();
+				input [1][1] = martesMinsEn.getText();
+				input [1][2] = martesHorasSa.getText();
+				input [1][3] = martesMinsSa.getText();
+				
+				input [2][0] = mierHorasEn.getText();
+				input [2][1] = mierMinsEn.getText();
+				input [2][2] = mierHorasSa.getText();
+				input [2][3] = mierMinsSa.getText();
+				
+				input [3][0] = juevesHorasEn.getText();
+				input [3][1] = juevesMinsEn.getText();
+				input [3][2] = juevesHorasSa.getText();
+				input [3][3] = juevesMinsSa.getText();
+				
+				input [4][0] = viernesHorasEn.getText();
+				input [4][1] = viernesMinsEn.getText();
+				input [4][2] = viernesHorasSa.getText();
+				input [4][3] = viernesMinsSa.getText();
+				
+				input [5][0] = sabadoHorasEn.getText();
+				input [5][1] = sabadoMinsEn.getText();
+				input [5][2] = sabadoHorasSa.getText();
+				input [5][3] = sabadoMinsSa.getText();
+				
+				input [6][0] = domingoHorasEn.getText();
+				input [6][1] = domingoMinsEn.getText();
+				input [6][2] = domingoHorasSa.getText();
+				input [6][3] = domingoMinsSa.getText();
+				String uri = Constants.INPUT_DATA_PATH;
+				URL url = getClass().getResource(uri);
+				File f = null;
+				if (url != null) {
+					f = new File(url.getFile());
+				} else {
+					String uriNoQuery = uri.substring(0, uri.lastIndexOf("/"));
+					url = getClass().getResource(uriNoQuery);
+					if (url != null) {
+						f = new File(url.getFile() + File.separator + uri.substring(uri.lastIndexOf("/") + 1, uri.length()));
+					}
+				}
+				try {
+					//get permission
+					System.out.println(url.getAuthority());
+					if (!f.exists()) {
+						f.createNewFile();
+					}
+					ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
+					out.writeObject(input);
+					out.close();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+			
+			private void recoverInputFromFile() {
+				try {
+					String uri = Constants.INPUT_DATA_PATH;
+					URL url = getClass().getResource(uri);
+					if (url != null){ //if the URL is found. If not found, is null.
+						File f = new File(url.getFile());
+						if (f.exists()){
+							ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
+							String[][] input = new String[7][4];
+							input = (String[][])in.readObject();
+							
+							lunesHorasEn.setText(input[0][0]);
+							lunesMinsEn.setText(input[0][1]);
+							lunesHorasSa.setText(input[0][2]);
+							lunesMinsSa.setText(input[0][3]);
+							
+							martesHorasEn.setText(input[1][0]);
+							martesMinsEn.setText(input[1][1]);
+							martesHorasSa.setText(input[1][2]);
+							martesMinsSa.setText(input[1][3]);
+							
+							mierHorasEn.setText(input[2][0]);
+							mierMinsEn.setText(input[2][1]);
+							mierHorasSa.setText(input[2][2]);
+							mierMinsSa.setText(input[2][3]);
+							
+							juevesHorasEn.setText(input[3][0]);
+							juevesMinsEn.setText(input[3][1]);
+							juevesHorasSa.setText(input[3][2]);
+							juevesMinsSa.setText(input[3][3]);
+							
+							viernesHorasEn.setText(input[4][0]);
+							viernesMinsEn.setText(input[4][1]);
+							viernesHorasSa.setText(input[4][2]);
+							viernesMinsSa.setText(input[4][3]);
+							
+							sabadoHorasEn.setText(input[5][0]);
+							sabadoMinsEn.setText(input[5][1]);
+							sabadoHorasSa.setText(input[5][2]);
+							sabadoMinsSa.setText(input[5][3]);
+							
+							domingoHorasEn.setText(input[6][0]);
+							domingoMinsEn.setText(input[6][1]);
+							domingoHorasSa.setText(input[6][2]);
+							domingoMinsSa.setText(input[6][3]);
+							
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	
