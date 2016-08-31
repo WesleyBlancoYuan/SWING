@@ -13,7 +13,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,6 +58,8 @@ public class MainFrame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String sp = File.separator;
+	private static final String spUni = "/";
 	private JFrame frame;
 	private Locale localeInSettings;
 	public Locale getLocaleInSettings() {
@@ -752,39 +756,61 @@ public class MainFrame extends JFrame{
 				input [6][1] = domingoMinsEn.getText();
 				input [6][2] = domingoHorasSa.getText();
 				input [6][3] = domingoMinsSa.getText();
-				String uri = Constants.INPUT_DATA_PATH;
-				URL url = getClass().getResource(uri);
-				File f = null;
-				if (url != null) {
-					f = new File(url.getFile());
-				} else {
-					String uriNoQuery = uri.substring(0, uri.lastIndexOf("/"));
-					url = getClass().getResource(uriNoQuery);
-					if (url != null) {
-						f = new File(url.getFile() + File.separator + uri.substring(uri.lastIndexOf("/") + 1, uri.length()));
-					}
-				}
+				String jarPath = "";
+				System.out.println("Writing data...");
 				try {
-					//get permission
-					System.out.println(url.getAuthority());
-					if (!f.exists()) {
-						f.createNewFile();
-					}
-					ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
-					out.writeObject(input);
-					out.close();
-				} catch (Exception e) {
-					// TODO: handle exception
+					jarPath = URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8");
+					System.out.println(jarPath); 
+					// como JAR: /d:\desarrollo\Cal7.jar, correct!
+					// como project: TODO
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				// construct a File within the same folder of this jar. Or, this class. TODO
+				String completePath = jarPath.substring(0, jarPath.lastIndexOf(spUni)) 
+						+ sp + Constants.INPUT_DATA_FILENAME;
+				File f = new File(completePath);
+				try {
+					if (!f.exists() && !f.createNewFile()) {
+						System.out.println("File doesn't exist, and creating file with path: " + completePath + " failed. ");
+						
+					} else {
+						System.out.println("Input data exists, or file with path " + completePath + " created successfully. ");
+						System.out.println("Absolute Path: " + f.getAbsolutePath());
+						System.out.println("Path: " + f.getPath());
+						ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
+						out.writeObject(input);
+						out.close();
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 			
 			private void recoverInputFromFile() {
-				try {
-					String uri = Constants.INPUT_DATA_PATH;
-					URL url = getClass().getResource(uri);
-					if (url != null){ //if the URL is found. If not found, is null.
-						File f = new File(url.getFile());
-						if (f.exists()){
+					System.out.println("Reading data...");
+					String jarPath = "";
+					String completePath = "";
+					try {
+						jarPath = URLDecoder.decode(getClass().getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8");
+						System.out.println(jarPath); 
+						// como JAR: /d:\desarrollo\Cal7.jar, correct!
+						// como project: TODO
+					} catch (UnsupportedEncodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					completePath = jarPath.substring(0, jarPath.lastIndexOf(spUni)) 
+							+ sp + Constants.INPUT_DATA_FILENAME;
+					File f = new File(completePath);
+					if (f.exists()){
+						System.out.println("File exists. ");
+						System.out.println("Absolute path: " + f.getAbsolutePath());
+						System.out.println("Path: " + f.getPath());
+						try {
 							ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
 							String[][] input = new String[7][4];
 							input = (String[][])in.readObject();
@@ -824,12 +850,14 @@ public class MainFrame extends JFrame{
 							domingoHorasSa.setText(input[6][2]);
 							domingoMinsSa.setText(input[6][3]);
 							
+							in.close();
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
+					} else {
+						System.out.println("File doesn't exist, or the path " + completePath + " is wrong. ");
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
-			}
 		});
 	}
 	

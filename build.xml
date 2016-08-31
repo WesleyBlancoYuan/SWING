@@ -7,7 +7,7 @@
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="D:/desarrollo"/>
     <target name="create_run_jar">
-        <jar destfile="${dir.jarfile}/CalculadorSaldoFichaje_v_2.01.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="${dir.jarfile}/CalculadorSaldoFichaje_v_2.02.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="com.WindThunderStudio.launcher.Launcher"/>
                 <attribute name="Class-Path" value="."/>

@@ -15,6 +15,9 @@ public class Constants {
 	public static final String CONFIG_KEY_LAST_DAY_SUMMER = "LAST_DAY_SUMMER";
 	public static final String CONFIG_KEY_DATE_FORMAT_PATTERN = "DATE_FORMAT_PATTERN";
 	public static final String INPUT_DATA_PATH="/com/WindThunderStudio/resources/inputData.txt";
+	public static final String INPUT_DATA_FILENAME="inputData.txt";
+	
+	
 	public static final String INPUT_DATA_PARENT_PATH="/com/WindThunderStudio/resources";
 	
 	public static final String CONFIG_KEY_LOCALE = "locale";
